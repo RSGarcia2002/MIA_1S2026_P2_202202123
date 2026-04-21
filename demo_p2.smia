@@ -1,0 +1,44 @@
+# ====== DEMO P2 (EXT2/EXT3 + NUBE + COMANDOS NUEVOS) ======
+
+mkdisk -size=30 -unit=M -path=/tmp/p2_demo.mia
+fdisk -size=12 -unit=M -path=/tmp/p2_demo.mia -name=Part1
+fdisk -size=4 -unit=M -path=/tmp/p2_demo.mia -name=Part2
+fdisk -add=1 -unit=M -path=/tmp/p2_demo.mia -name=Part2
+fdisk -delete=full -path=/tmp/p2_demo.mia -name=Part2
+mount -path=/tmp/p2_demo.mia -name=Part1
+mounted
+
+# EXT3
+mkfs -id=231A -type=full -fs=3fs
+login -user=root -pass=123 -id=231A
+
+# Base de carpetas/archivos
+mkdir -p -path=/home/proyectos/p2
+mkfile -path=/home/proyectos/p2/readme.txt -size=80
+mkfile -path=/home/proyectos/p2/nota.txt -cont="contenido inicial p2"
+cat -file1=/home/proyectos/p2/readme.txt -file2=/home/proyectos/p2/nota.txt
+
+# Nuevos comandos
+copy -path=/home/proyectos/p2/readme.txt -destino=/home
+rename -path=/home/readme.txt -name=readme_copia.txt
+find -path=/ -name=*readme*
+chmod -path=/home/readme_copia.txt -ugo=664
+chown -path=/home/readme_copia.txt -user=root
+move -path=/home/readme_copia.txt -destino=/home/proyectos/p2
+remove -path=/home/proyectos/p2/nota.txt
+
+# Reportes
+rep -id=231A -path=/tmp/p2_mbr.png -name=mbr
+rep -id=231A -path=/tmp/p2_disk.png -name=disk
+rep -id=231A -path=/tmp/p2_tree.png -name=tree
+rep -id=231A -path=/tmp/p2_inode.png -name=inode
+rep -id=231A -path=/tmp/p2_block.png -name=block
+
+# Journaling + Loss
+journaling -id=231A
+loss -id=231A
+journaling -id=231A
+
+logout
+unmount -id=231A
+mounted

@@ -1,0 +1,9 @@
+build/
+node_modules/
+dist/
+*.log
+*.o
+*.out
+*.exe
+*.cache
+.env.production

@@ -204,9 +204,14 @@ namespace FileOperations
     static void SetName12(char dest[12], const std::string &name)
     {
         std::memset(dest, 0, 12);
-        size_t n = std::min<size_t>(11, name.size());
+        size_t n = std::min<size_t>(12, name.size());
         if (n > 0)
             std::memcpy(dest, name.c_str(), n);
+    }
+
+    static std::string NameFrom12(const char name[12])
+    {
+        return std::string(name, strnlen(name, 12));
     }
 
     static int MaxFileDataBlocks()
@@ -1277,7 +1282,7 @@ namespace FileOperations
             {
                 if (bd.b_content[i].b_inodo == -1)
                     continue;
-                std::string nm(bd.b_content[i].b_name);
+                std::string nm = NameFrom12(bd.b_content[i].b_name);
                 if (nm == "." || nm == "..")
                     continue;
                 out.push_back({nm, bd.b_content[i].b_inodo});
@@ -1349,7 +1354,7 @@ namespace FileOperations
         return true;
     }
 
-    std::string Remove(const std::string &path)
+    std::string Remove(const std::string &path, bool recursive)
     {
         std::string err;
         const DiskManagement::MountedPartition *mp = nullptr;
@@ -1407,6 +1412,18 @@ namespace FileOperations
         {
             f.close();
             return "Error [remove]: ruta no encontrada";
+        }
+
+        Inodo target{};
+        if (!Utilities::ReadObject(f, target, sb.s_inode_start + targetIno * (int)sizeof(Inodo)))
+        {
+            f.close();
+            return "Error [remove]: no se pudo leer inodo objetivo";
+        }
+        if (target.i_type == '0' && !recursive && !ListDirEntries(f, sb, targetIno).empty())
+        {
+            f.close();
+            return "Error [remove]: carpeta no vacia (usa -r)";
         }
 
         int blkIdx = -1, slot = -1;
@@ -1674,7 +1691,10 @@ namespace FileOperations
             Utilities::ReadObject(rf, src, sb.s_inode_start + srcIno * (int)sizeof(Inodo));
             std::string content = ReadFileContent(rf, sb, src);
             rf.close();
-            return Mkfile(destPath, true, 0, content);
+            std::string mk = Mkfile(destPath, false, 0, content);
+            if (mk.rfind("Error", 0) == 0)
+                return "Error [copy]: " + mk;
+            return "OK [copy]: " + path + " -> " + destPath;
         }
 
         std::queue<std::pair<std::string, int>> q;
@@ -1733,7 +1753,7 @@ namespace FileOperations
     {
         std::string r = Copy(path, destino);
         if (r.rfind("Error", 0) == 0)
-            return r;
+            return "Error [move]: " + r;
         std::string rr = Remove(path);
         if (rr.rfind("Error", 0) == 0)
             return "Error [move]: copia realizada pero no se pudo eliminar origen: " + rr;
@@ -1771,10 +1791,10 @@ namespace FileOperations
             std::string token;
             while (std::getline(ls, token, ','))
                 fields.push_back(token);
-            if (fields.size() >= 5 && fields[1] == "U" && fields[0] != "0" && fields[2] == targetUser)
+            if (fields.size() >= 5 && fields[1] == "U" && fields[0] != "0" && fields[3] == targetUser)
             {
                 uidOut = std::stoi(fields[0]);
-                gidOut = gidByGroup.count(fields[3]) ? gidByGroup[fields[3]] : 1;
+                gidOut = gidByGroup.count(fields[2]) ? gidByGroup[fields[2]] : 1;
                 return true;
             }
         }

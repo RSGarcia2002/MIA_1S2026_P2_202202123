@@ -20,11 +20,11 @@ cat -file1=/home/proyectos/p2/readme.txt -file2=/home/proyectos/p2/nota.txt
 
 # Nuevos comandos
 copy -path=/home/proyectos/p2/readme.txt -destino=/home
-rename -path=/home/readme.txt -name=readme_copia.txt
+rename -path=/home/readme.txt -name=rdme_cp.txt
 find -path=/ -name=*readme*
-chmod -path=/home/readme_copia.txt -ugo=664
-chown -path=/home/readme_copia.txt -user=root
-move -path=/home/readme_copia.txt -destino=/home/proyectos/p2
+chmod -path=/home/rdme_cp.txt -ugo=664
+chown -path=/home/rdme_cp.txt -user=root
+move -path=/home/rdme_cp.txt -destino=/home/proyectos/p2
 remove -path=/home/proyectos/p2/nota.txt
 
 # Reportes

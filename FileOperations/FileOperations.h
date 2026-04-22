@@ -9,7 +9,7 @@ namespace FileOperations
     std::string Edit(const std::string &path, const std::string &cont);
     std::string Mkdir(const std::string &path, bool parents);
     std::string Cat(const std::vector<std::string> &files);
-    std::string Remove(const std::string &path);
+    std::string Remove(const std::string &path, bool recursive = false);
     std::string Rename(const std::string &path, const std::string &name);
     std::string Copy(const std::string &path, const std::string &destino);
     std::string Move(const std::string &path, const std::string &destino);

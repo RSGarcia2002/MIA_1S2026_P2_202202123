@@ -408,7 +408,8 @@ namespace Analyzer
             std::string path = require("path");
             if (path.empty())
                 return "Error [remove]: falta -path";
-            return FileOperations::Remove(path);
+            bool recursive = params.count("r") > 0;
+            return FileOperations::Remove(path, recursive);
         }
 
         if (command == "rename")

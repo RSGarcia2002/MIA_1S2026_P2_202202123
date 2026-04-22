@@ -4,98 +4,98 @@
 #  1: CREAR DISCOS Y VALIDAR ERRORES
 
 # ERROR: Parámetro incorrecto
-mkdisk -param=x -size=30 -path=/home/"su usuario"/Pruebas_MIA/DiscoError.mia
+mkdisk -param=x -size=30 -path=/tmp/Pruebas_MIA/DiscoError.mia
 
 # ERROR: Tamaño incorrecto
-mkdisk -tamaño=3000 -unit=K -path=/home/"su usuario"/Pruebas_MIA/DiscoError.mia
+mkdisk -tamaño=3000 -unit=K -path=/tmp/Pruebas_MIA/DiscoError.mia
 
 # Disco A - 25MB
-mkdisk -size=25 -unit=M -fit=FF -path=/home/"su usuario"/Pruebas_MIA/DiscoA.mia
+mkdisk -size=25 -unit=M -fit=FF -path=/tmp/Pruebas_MIA/DiscoA.mia
 
 # Disco B - 30MB
-mkdisk -size=30 -unit=M -fit=BF -path=/home/"su usuario"/Pruebas_MIA/DiscoB.mia
+mkdisk -size=30 -unit=M -fit=BF -path=/tmp/Pruebas_MIA/DiscoB.mia
 
 # Disco C - 15MB
-mkdisk -size=15 -unit=M -path=/home/"su usuario"/Pruebas_MIA/DiscoC.mia
+mkdisk -size=15 -unit=M -path=/tmp/Pruebas_MIA/DiscoC.mia
 
 #  2: RMDISK - ELIMINAR DISCOS
 
 # ERROR: Disco no existe
-rmdisk -path=/home/"su usuario"/Pruebas_MIA/DiscoNoExiste.mia
+rmdisk -path=/tmp/Pruebas_MIA/DiscoNoExiste.mia
 
 # Crear discos temporales para pruebas de eliminación
-mkdisk -size=10 -unit=M -path=/home/"su usuario"/Pruebas_MIA/DiscoTemp1.mia
-mkdisk -size=8 -unit=M -path=/home/"su usuario"/Pruebas_MIA/DiscoTemp2.mia
+mkdisk -size=10 -unit=M -path=/tmp/Pruebas_MIA/DiscoTemp1.mia
+mkdisk -size=8 -unit=M -path=/tmp/Pruebas_MIA/DiscoTemp2.mia
 
 # Eliminar discos temporales
-rmdisk -path=/home/"su usuario"/Pruebas_MIA/DiscoTemp1.mia
-rmdisk -path=/home/"su usuario"/Pruebas_MIA/DiscoTemp2.mia
+rmdisk -path=/tmp/Pruebas_MIA/DiscoTemp1.mia
+rmdisk -path=/tmp/Pruebas_MIA/DiscoTemp2.mia
 
 # ERROR: Intentar eliminar disco ya eliminado
-rmdisk -path=/home/"su usuario"/Pruebas_MIA/DiscoTemp1.mia
+rmdisk -path=/tmp/Pruebas_MIA/DiscoTemp1.mia
 
 #  3: FDISK - CREAR PARTICIONES
 
 # ERROR: Ruta no encontrada
-fdisk -type=P -unit=M -name=PartError -size=10 -path=/home/"su usuario"/Pruebas_MIA/DiscoError.mia -fit=BF
+fdisk -type=P -unit=M -name=PartError -size=10 -path=/tmp/Pruebas_MIA/DiscoError.mia -fit=BF
 
 # Disco A - 3 particiones primarias
-fdisk -type=P -unit=M -name=PartA1 -size=8 -path=/home/"su usuario"/Pruebas_MIA/DiscoA.mia -fit=BF
-fdisk -type=P -unit=M -name=PartA2 -size=8 -path=/home/"su usuario"/Pruebas_MIA/DiscoA.mia -fit=BF
-fdisk -type=P -unit=M -name=PartA3 -size=8 -path=/home/"su usuario"/Pruebas_MIA/DiscoA.mia -fit=BF
+fdisk -type=P -unit=M -name=PartA1 -size=8 -path=/tmp/Pruebas_MIA/DiscoA.mia -fit=BF
+fdisk -type=P -unit=M -name=PartA2 -size=8 -path=/tmp/Pruebas_MIA/DiscoA.mia -fit=BF
+fdisk -type=P -unit=M -name=PartA3 -size=8 -path=/tmp/Pruebas_MIA/DiscoA.mia -fit=BF
 
 # ERROR: Límite de particiones primarias
-fdisk -type=P -unit=M -name=PartError -size=5 -path=/home/"su usuario"/Pruebas_MIA/DiscoA.mia -fit=BF
+fdisk -type=P -unit=M -name=PartError -size=5 -path=/tmp/Pruebas_MIA/DiscoA.mia -fit=BF
 
 # Disco B - Partición extendida con lógicas
-fdisk -type=E -unit=M -name=PartExtB -size=20 -path=/home/"su usuario"/Pruebas_MIA/DiscoB.mia -fit=BF
-fdisk -type=L -unit=M -name=PartB1 -size=5 -path=/home/"su usuario"/Pruebas_MIA/DiscoB.mia -fit=BF
-fdisk -type=L -unit=M -name=PartB2 -size=5 -path=/home/"su usuario"/Pruebas_MIA/DiscoB.mia -fit=BF
-fdisk -type=L -unit=M -name=PartB3 -size=5 -path=/home/"su usuario"/Pruebas_MIA/DiscoB.mia -fit=BF
+fdisk -type=E -unit=M -name=PartExtB -size=20 -path=/tmp/Pruebas_MIA/DiscoB.mia -fit=BF
+fdisk -type=L -unit=M -name=PartB1 -size=5 -path=/tmp/Pruebas_MIA/DiscoB.mia -fit=BF
+fdisk -type=L -unit=M -name=PartB2 -size=5 -path=/tmp/Pruebas_MIA/DiscoB.mia -fit=BF
+fdisk -type=L -unit=M -name=PartB3 -size=5 -path=/tmp/Pruebas_MIA/DiscoB.mia -fit=BF
 
 # Disco C - 2 particiones
-fdisk -type=P -unit=M -name=PartC1 -size=8 -path=/home/"su usuario"/Pruebas_MIA/DiscoC.mia
-fdisk -type=P -unit=M -name=PartC2 -size=6 -path=/home/"su usuario"/Pruebas_MIA/DiscoC.mia
+fdisk -type=P -unit=M -name=PartC1 -size=8 -path=/tmp/Pruebas_MIA/DiscoC.mia
+fdisk -type=P -unit=M -name=PartC2 -size=6 -path=/tmp/Pruebas_MIA/DiscoC.mia
 
 # ERROR: Falta espacio
-fdisk -type=P -unit=M -name=PartError -size=20 -path=/home/"su usuario"/Pruebas_MIA/DiscoC.mia
+fdisk -type=P -unit=M -name=PartError -size=20 -path=/tmp/Pruebas_MIA/DiscoC.mia
 
 # FASE PRUEBAS DE FDISK ADD Y DELETE
 
 # Agregar 2MB a PartA1
-fdisk -add=2 -unit=M -path=/home/"su usuario"/Pruebas_MIA/DiscoA.mia -name=PartA1
+fdisk -add=2 -unit=M -path=/tmp/Pruebas_MIA/DiscoA.mia -name=PartA1
 
 # Quitar 2MB a PartA1
-fdisk -add=-2 -unit=M -path=/home/"su usuario"/Pruebas_MIA/DiscoA.mia -name=PartA1
+fdisk -add=-2 -unit=M -path=/tmp/Pruebas_MIA/DiscoA.mia -name=PartA1
 
 # Crear partición temporal para prueba de DELETE
-fdisk -type=P -unit=M -name=PartTempA4 -size=1 -path=/home/"su usuario"/Pruebas_MIA/DiscoA.mia
+fdisk -type=P -unit=M -name=PartTempA4 -size=1 -path=/tmp/Pruebas_MIA/DiscoA.mia
 
 # Eliminar partición de forma rápida (Fast)
-fdisk -delete=fast -name=PartTempA4 -path=/home/"su usuario"/Pruebas_MIA/DiscoA.mia
+fdisk -delete=fast -name=PartTempA4 -path=/tmp/Pruebas_MIA/DiscoA.mia
 
 # Crear otra partición temporal en Disco B
-fdisk -type=L -unit=M -name=PartTempB4 -size=2 -path=/home/"su usuario"/Pruebas_MIA/DiscoB.mia
+fdisk -type=L -unit=M -name=PartTempB4 -size=2 -path=/tmp/Pruebas_MIA/DiscoB.mia
 
 # Eliminar partición de forma completa (Full - rellena con \0)
-fdisk -delete=full -name=PartTempB4 -path=/home/"su usuario"/Pruebas_MIA/DiscoB.mia
+fdisk -delete=full -name=PartTempB4 -path=/tmp/Pruebas_MIA/DiscoB.mia
 
 # ERROR: Intentar eliminar partición que no existe
-fdisk -delete=fast -name=PartNoExiste -path=/home/"su usuario"/Pruebas_MIA/DiscoA.mia
+fdisk -delete=fast -name=PartNoExiste -path=/tmp/Pruebas_MIA/DiscoA.mia
 
 #  4: MOUNT - MONTAR PARTICIONES
 
 # ERROR: Partición no existe
-mount -path=/home/"su usuario"/Pruebas_MIA/DiscoA.mia -name=PartNoExiste
+mount -path=/tmp/Pruebas_MIA/DiscoA.mia -name=PartNoExiste
 
 # Montar particiones
-mount -path=/home/"su usuario"/Pruebas_MIA/DiscoA.mia -name=PartA1
-mount -path=/home/"su usuario"/Pruebas_MIA/DiscoA.mia -name=PartA2
-mount -path=/home/"su usuario"/Pruebas_MIA/DiscoB.mia -name=PartB1
-mount -path=/home/"su usuario"/Pruebas_MIA/DiscoC.mia -name=PartC1
+mount -path=/tmp/Pruebas_MIA/DiscoA.mia -name=PartA1
+mount -path=/tmp/Pruebas_MIA/DiscoA.mia -name=PartA2
+mount -path=/tmp/Pruebas_MIA/DiscoB.mia -name=PartB1
+mount -path=/tmp/Pruebas_MIA/DiscoC.mia -name=PartC1
 
 # ERROR: Partición ya montada
-mount -path=/home/"su usuario"/Pruebas_MIA/DiscoA.mia -name=PartA1
+mount -path=/tmp/Pruebas_MIA/DiscoA.mia -name=PartA1
 
 # Ver particiones montadas
 mounted
@@ -105,14 +105,15 @@ mounted
 # ERROR: ID no encontrado
 mkfs -type=full -fs=3fs -id=999X
 
-# Formatear con EXT3 con journaling 
-mkfs -type=full -fs=3fs -id=122A
+# Formatear con EXT3 con journaling
+mkfs -type=full -fs=3fs -id=232A
 
 # Formatear con EXT3 con journaling
-mkfs -type=full -fs=3fs -id=123A
+mkfs -type=full -fs=3fs -id=231A
 
 # Formatear resto con EXT3 (solo particiones primarias y lógicas, NO extendidas)
-mkfs -type=full -fs=3fs -id=121C
+mkfs -type=full -fs=3fs -id=231B
+mkfs -type=full -fs=3fs -id=231C
 
 
 #  6: LOGIN Y USUARIOS
@@ -120,7 +121,8 @@ mkfs -type=full -fs=3fs -id=121C
 # Ir a la interfaz web y hacer login con:
 # Usuario: root
 # Contraseña: 123
-# Partición: 122A
+# Partición: 232A
+login -user=root -pass=123 -id=232A
 
 #  7: CREAR GRUPOS
 
@@ -188,9 +190,9 @@ mkdir -p -path=/home/archivos/manuales
 
 # Ir a la interfaz web y:
 # 1. Hacer logout (botón "Cerrar Sesión")
-# 2. Hacer login con usuario: user1, contraseña: pass123, partición: 122A
+# 2. Hacer login con usuario: user1, contraseña: pass123, partición: 232A
 # 3. Hacer logout nuevamente
-# 4. Hacer login con usuario: root, contraseña: 123, partición: 122A
+# 4. Hacer login con usuario: root, contraseña: 123, partición: 232A
 
 #  15: CREAR ARCHIVOS CON MKFILE
 
@@ -205,7 +207,7 @@ mkfile -path=/home/user1/archivo2.txt -size=100
 mkfile -path=/home/user1/readme.txt -contenido=/home/fuente.txt
 
 # Con contenido desde archivo existente
-mkfile -path=/home/archivos/documento.txt -contenido=/home/fuente.txt
+mkfile -path=/home/archivos/doc.txt -contenido=/home/fuente.txt
 
 # ERROR: No existe ruta
 mkfile -path=/noexiste/archivo.txt -size=50
@@ -219,13 +221,13 @@ mkfile -r -path=/home/user1/proyectos/codigo/main.txt -size=75
 #  16: LEER ARCHIVOS CON CAT
 
 cat -file1=/home/user1/readme.txt
-cat -file1=/home/archivos/documento.txt
+cat -file1=/home/archivos/doc.txt
 cat -file1=/home/user1/archivo1.txt
 
 #  17 y 18: JOURNALING con solo EXT3
 
-# Ver journal de partición EXT3 (122A es EXT3)
-journaling -id=122A
+# Ver journal de partición EXT3 (232A es EXT3)
+journaling -id=232A
 
 #  19:  CHMOD
 
@@ -266,7 +268,7 @@ find -path=/noexiste -name=archivo.txt
 #  22: RENAME
 
 # Renombrar archivo
-rename -path=/home/user1/archivo1.txt -name=archivo_renombrado.txt
+rename -path=/home/user1/archivo1.txt -name=arch_ren.txt
 
 # Renombrar carpeta
 rename -path=/home/user1/documentos -name=docs_user1
@@ -277,7 +279,7 @@ rename -path=/home/user1/archivo2.txt -name=readme.txt
 #  23:  COPY
 
 # Copiar archivo
-copy -path=/home/user1/readme.txt -destino=/home/user1/readme_copia.txt
+copy -path=/home/user1/readme.txt -destino=/home/user1/rdme_cp.txt
 
 # ERROR: Destino no existe
 copy -path=/home/user1/readme.txt -destino=/noexiste/copia.txt
@@ -285,7 +287,7 @@ copy -path=/home/user1/readme.txt -destino=/noexiste/copia.txt
 #  24:  MOVE
 
 # Mover archivo (archivo2 ya fue renombrado, usar otro)
-move -path=/home/user1/readme_copia.txt -destino=/home/readme_movido.txt
+move -path=/home/user1/rdme_cp.txt -destino=/home/rdme_mv.txt
 
 # ERROR: Origen no existe
 move -path=/noexiste.txt -destino=/home/destino.txt
@@ -304,40 +306,41 @@ edit -path=/noexiste.txt -contenido=/home/fuente.txt
 #  26:  REMOVE
 
 # Eliminar archivo
-remove -path=/home/user1/archivo_renombrado.txt
+remove -path=/home/user1/arch_ren.txt
 
 # Eliminar carpeta vacía
-remove -path=/home/user1/proyectos/codigo
+remove -path=/home/archivos/manuales
 
 # ERROR: Carpeta no vacía sin flag -r 
-remove -path=/home/docs_user1
+remove -path=/home/user1/docs_user1
 
 # Eliminar carpeta no vacía con flag -r
-remove -path=/home/docs_user1 -r
+remove -path=/home/user1/docs_user1 -r
 
 # ERROR: No existe
 remove -path=/noexiste.txt
 
 #  27: COMANDOS CRÍTICOS - LOSS Y RECOVERY
 
-# Simular pérdida del sistema (solo EXT3 - usar 122A)
-loss -id=122A
+# Simular pérdida del sistema (solo EXT3 - usar 232A)
+loss -id=232A
 
 # Ver que el journal sigue disponible
-journaling -id=122A
+journaling -id=232A
 
 # Recuperar el sistema desde journal
-recovery -id=122A
+recovery -id=232A
 
 # DESMONTAR PARTICIONES
 
 # Primero hacer logout desde la interfaz web
+logout
 
-# Desmontar todas las particiones montadas (122A, 123A, 121B que es PartB1, 121C)
-unmount -id=122A
-unmount -id=123A
-unmount -id=121B
-unmount -id=121C
+# Desmontar todas las particiones montadas (231A, 232A, 231B, 231C)
+unmount -id=232A
+unmount -id=231A
+unmount -id=231B
+unmount -id=231C
 
 # Verificar
 mounted

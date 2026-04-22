@@ -1,145 +1,102 @@
-EXTREAMFS – Simulador de Sistema de Archivos EXT2/EXT3 (Proyecto 2)
+# EXTREAMFS - Proyecto 2
 
-Universidad de San Carlos de Guatemala Facultad de Ingeniería Curso:
-Manejo e Implementación de Archivos Proyecto 2
+Universidad de San Carlos de Guatemala  
+Facultad de Ingenieria  
+Curso: Manejo e Implementacion de Archivos  
 
-Estudiante: Randall García Carnet: 202202123
+Estudiante: Randall Garcia  
+Carnet: 202202123
 
-------------------------------------------------------------------------
+## Descripcion
 
-DESCRIPCIÓN DEL PROYECTO
+EXTREAMFS es un simulador de sistema de archivos EXT2/EXT3 en C++ con interfaz web.
+Incluye manejo de discos, particiones, sistema de archivos, usuarios, reportes y
+despliegue cloud (Frontend S3 + Backend EC2).
 
-EXTREAMFS es un simulador de sistema de archivos inspirado en EXT2,
-desarrollado en C++, que permite administrar discos virtuales,
-particiones y estructuras internas del sistema de archivos mediante una
-interfaz de comandos.
+## Funcionalidad Implementada
 
-El proyecto implementa:
+- Administracion de discos: `mkdisk`, `rmdisk`, `fdisk` (`-add`, `-delete`)
+- Montaje: `mount`, `unmount`, `mounted`
+- Formateo: `mkfs -fs=2fs|3fs`
+- Sesion/usuarios: `login`, `logout`, `mkgrp`, `rmgrp`, `mkusr`, `rmusr`, `chgrp`
+- Archivos/carpetas: `mkdir`, `mkfile`, `cat`, `edit`, `remove`, `rename`, `copy`, `move`, `find`
+- Permisos/propietario: `chmod`, `chown`
+- Reportes: `rep`
+- EXT3: `journaling`, `loss`, `recovery`
 
--   Creación y eliminación de discos virtuales
--   Administración de particiones
--   Montaje de particiones
--   Formateo de sistemas de archivos
--   Manejo de archivos y directorios
--   Gestión de usuarios y sesiones
--   Generación de reportes gráficos del sistema
--   Soporte EXT3 con journaling
--   Nuevos comandos: unmount, remove, rename, copy, move, find, chown, chmod, loss, journaling
+## Regla de IDs por Carnet
 
-Además, incluye una interfaz web que permite ejecutar comandos y
-visualizar reportes generados por el sistema.
+El sistema usa los ultimos dos digitos del carnet para IDs montados.  
+Para carnet `202202123` se usa prefijo `23`.  
+Ejemplos: `231A`, `232A`, `231B`.
 
-------------------------------------------------------------------------
+## Endpoints HTTP
 
-ARQUITECTURA DEL PROYECTO
+- `GET /health`
+- `POST /execute`
+- `GET /report?path=...`
+- `GET /fs/mounted`
+- `GET /fs/browse?id=...&path=...`
+- `GET /fs/file?id=...&path=...`
 
-Backend (C++) Responsable de:
+## Requisitos
 
--   Interpretación de comandos
--   Manejo del sistema de archivos
--   Administración de discos
--   Generación de reportes
--   API HTTP para comunicación con el frontend
+- Linux recomendado
+- `g++`, `cmake`, `graphviz`
+- `node`, `npm`
 
-Frontend (React + Vite) Responsable de:
+Ubuntu:
 
--   Interfaz gráfica para ejecutar comandos
--   Visualización de resultados
--   Visualización de reportes generados
--   Carga de scripts .smia
+```bash
+sudo apt update
+sudo apt install -y build-essential cmake graphviz nodejs npm
+```
 
-------------------------------------------------------------------------
+## Compilacion y Ejecucion
 
-ESTRUCTURA DEL PROYECTO
+Backend:
 
-MIA_1S2026_P2_202202123
+```bash
+cmake -S . -B build
+cmake --build build -j1
+./build/MIA_P1 --server 8080
+```
 
-Analyzer DiskManagement FileSystem FileOperations HttpServer Reports
-Structs Utilities UserSession frontend main.cpp CMakeLists.txt README.md
+Frontend:
 
-------------------------------------------------------------------------
-
-REQUISITOS DEL SISTEMA
-
-Linux recomendado
-
-Herramientas necesarias:
-
-g++ cmake nodejs npm graphviz boost
-
-Instalación en Ubuntu:
-
-sudo apt update sudo apt install build-essential cmake nodejs npm
-graphviz libboost-all-dev
-
-------------------------------------------------------------------------
-
-COMPILACIÓN DEL BACKEND
-
-Desde la carpeta raíz del proyecto ejecutar:
-
-cmake -S . -B build cmake –build build -j
-
-Esto generará el ejecutable:
-
-build/MIA_P1
-
-------------------------------------------------------------------------
-
-EJECUCIÓN DEL BACKEND
-
-./build/MIA_P1 –server 8080
-
-Si todo funciona correctamente aparecerá:
-
-Tamanios de estructuras correctos MBR: 168 bytes Partition: 35 bytes
-EBR: 30 bytes
-
-------------------------------------------------------------------------
-
-EJECUCIÓN DEL FRONTEND
-
+```bash
 npm install
 npm run dev
+```
 
-Abrir en el navegador:
+Build produccion:
 
-http://localhost:3000
+```bash
+npm run build
+```
 
-Para despliegue en AWS (frontend S3 -> backend EC2), configurar:
+## Despliegue AWS
 
+- Backend en EC2
+- Frontend estatico en S3
+- Variable de frontend:
+
+```bash
 VITE_API_BASE_URL=http://<EC2_PUBLIC_IP>:8080
+```
 
-------------------------------------------------------------------------
+Referencia de despliegue:
+- `AWS_DEPLOY_P2.md`
+- `deploy/ec2_backend_setup.sh`
+- `deploy/frontend_build_prod.sh`
 
-EJEMPLO DE COMANDOS
+## Archivos de Demostracion
 
-mkdisk -size=50 -unit=M -path=/home/randall/disco.mia fdisk -size=10
--unit=M -path=/home/randall/disco.mia -name=Part1 mount
--path=/home/randall/disco.mia -name=Part1 mkfs -id=231A login -user=root
--pass=123 -id=231A mkdir -path=/home/proyectos mkfile
--path=/home/proyectos/test.txt -size=100 rep -id=231A -path=/tmp/mbr.jpg
--name=mbr
+- `demo_p2.smia`
+- `prueba_auxiliar_compat_p2.smia`
+- `VALIDACION_LINUX_P2.md`
+- `ESTADO_RUTA_100.md`
 
-------------------------------------------------------------------------
+## Repositorio
 
-TECNOLOGÍAS UTILIZADAS
-
-Backend - C++ - Crow HTTP Framework - Graphviz - CMake
-
-Frontend - React - Vite - CSS
-
-------------------------------------------------------------------------
-
-REPOSITORIO
-
-https://github.com/RSGarcia2002/MIA_1S2026_P1_202202123
-
-------------------------------------------------------------------------
-
-AUTOR
-
-Randall García Carnet: 202202123
-
-Proyecto desarrollado para el curso Manejo e Implementación de Archivos
-Facultad de Ingeniería – USAC
+https://github.com/RSGarcia2002/MIA_1S2026_P2_202202123

@@ -545,7 +545,8 @@ namespace FileOperations
             ino.i_block[k] = -1;
         ino.i_block[0] = newBlk;
         ino.i_type = '0';
-        std::memcpy(ino.i_perm, "664", 3);
+        // Los directorios requieren bit de ejecucion para poder atravesarse.
+        std::memcpy(ino.i_perm, "775", 3);
         Utilities::WriteObject(f, ino, sb.s_inode_start + newIno * (int)sizeof(Inodo));
 
         BloqueDir bd{};
@@ -1674,16 +1675,33 @@ namespace FileOperations
         std::string srcName = path.substr(path.find_last_of('/') + 1);
         std::string destPath = destino;
         int dstIno = (destino == "/") ? 1 : TraversePathWithPerm(f, sb, destino, false, dummy, uid, gid, travErr);
+        bool destExists = (dstIno >= 0);
+        bool destIsDir = false;
         if (dstIno >= 0)
         {
             Inodo dstMeta{};
             if (Utilities::ReadObject(f, dstMeta, sb.s_inode_start + dstIno * (int)sizeof(Inodo)) && dstMeta.i_type == '0')
+            {
+                destIsDir = true;
                 destPath = (destino == "/") ? ("/" + srcName) : (destino + "/" + srcName);
+            }
         }
         f.close();
 
         if (src.i_type == '1')
         {
+            if (!destExists && !destIsDir)
+            {
+                // Si el destino no existe, solo se acepta como archivo explicito
+                // cuando el ultimo componente parece nombre de archivo (contiene '.').
+                // Esto conserva casos como /home/user1/copia.txt y rechaza /home/noexiste.
+                std::string base = destino.substr(destino.find_last_of('/') == std::string::npos
+                                                      ? 0
+                                                      : destino.find_last_of('/') + 1);
+                if (base.find('.') == std::string::npos)
+                    return "Error [copy]: destino no existe";
+            }
+
             std::fstream rf = Utilities::OpenFile(mp->diskPath);
             if (!rf.is_open())
                 return "Error [copy]: no se pudo abrir disco para lectura";
@@ -1696,6 +1714,9 @@ namespace FileOperations
                 return "Error [copy]: " + mk;
             return "OK [copy]: " + path + " -> " + destPath;
         }
+
+        if (!destExists || !destIsDir)
+            return "Error [copy]: destino no existe";
 
         std::queue<std::pair<std::string, int>> q;
         q.push({path, srcIno});

@@ -416,6 +416,8 @@ namespace UserSession
             return "Error [rmgrp]: no hay sesion activa";
         if (s_session.user != "root")
             return "Error [rmgrp]: solo root puede eliminar grupos";
+        if (name == "root")
+            return "Error [rmgrp]: no se puede eliminar el grupo root";
 
         auto it = DiskManagement::MountMap.find(s_session.partId);
         if (it == DiskManagement::MountMap.end())

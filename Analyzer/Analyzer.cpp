@@ -149,6 +149,10 @@ namespace Analyzer
 
             std::string fit = params.count("fit") ? Utilities::ToLower(params["fit"]) : "ff";
             std::string unit = params.count("unit") ? Utilities::ToLower(params["unit"]) : "m";
+            if (unit != "k" && unit != "m")
+                return "Error [mkdisk]: unidad invalida, use k o m";
+            if (fit != "ff" && fit != "bf" && fit != "wf")
+                return "Error [mkdisk]: fit invalido, use ff, bf o wf";
 
             return DiskManagement::Mkdisk(sizeVal, path, fit, unit);
         }
@@ -205,6 +209,12 @@ namespace Analyzer
             std::string type = params.count("type") ? Utilities::ToLower(params["type"]) : "p";
             std::string fit = params.count("fit") ? Utilities::ToLower(params["fit"]) : "wf";
             std::string unit = params.count("unit") ? Utilities::ToLower(params["unit"]) : "k";
+            if (type != "p" && type != "e" && type != "l")
+                return "Error [fdisk]: -type solo acepta p, e o l";
+            if (fit != "ff" && fit != "bf" && fit != "wf")
+                return "Error [fdisk]: -fit solo acepta ff, bf o wf";
+            if (unit != "b" && unit != "k" && unit != "m")
+                return "Error [fdisk]: -unit solo acepta b, k o m";
 
             return DiskManagement::Fdisk(sizeVal, path, name, type, fit, unit, deleteMode, addVal);
         }
@@ -241,6 +251,10 @@ namespace Analyzer
                 return "Error [mkfs]: falta -id";
             std::string type = params.count("type") ? Utilities::ToLower(params["type"]) : "full";
             std::string fs = params.count("fs") ? Utilities::ToLower(params["fs"]) : "2fs";
+            if (type != "full" && type != "fast")
+                return "Error [mkfs]: -type solo acepta full o fast";
+            if (fs != "2fs" && fs != "3fs")
+                return "Error [mkfs]: -fs solo acepta 2fs o 3fs";
             return FileSystem::Mkfs(id, type, fs);
         }
 

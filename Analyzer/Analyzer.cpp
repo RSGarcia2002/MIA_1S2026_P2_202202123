@@ -149,8 +149,8 @@ namespace Analyzer
 
             std::string fit = params.count("fit") ? Utilities::ToLower(params["fit"]) : "ff";
             std::string unit = params.count("unit") ? Utilities::ToLower(params["unit"]) : "m";
-            if (unit != "k" && unit != "m")
-                return "Error [mkdisk]: unidad invalida, use k o m";
+            if (unit != "b" && unit != "k" && unit != "m")
+                return "Error [mkdisk]: unidad invalida, use b, k o m";
             if (fit != "ff" && fit != "bf" && fit != "wf")
                 return "Error [mkdisk]: fit invalido, use ff, bf o wf";
 
@@ -474,10 +474,12 @@ namespace Analyzer
         {
             std::string path = require("path");
             std::string user = require("user");
+            if (user.empty())
+                user = require("usuario");
             if (path.empty())
                 return "Error [chown]: falta -path";
             if (user.empty())
-                return "Error [chown]: falta -user";
+                return "Error [chown]: falta -user/-usuario";
             bool recursive = params.count("r") > 0;
             return FileOperations::Chown(path, user, recursive);
         }
